@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, Post } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
-import { Dto } from "./dto/index";
+import { CreateUserDto } from "../dto/create-account.dto";
 import { hash } from "bcryptjs";
 
 @Controller("/accounts")
@@ -9,7 +9,7 @@ export class CreateAccountController {
 
   @Post()
   @HttpCode(201)
-  async handle(@Body() dto: Dto) {
+  async handle(@Body() dto: CreateUserDto) {
     const name = dto.name;
     const email = dto.email;
     const password = dto.password;
