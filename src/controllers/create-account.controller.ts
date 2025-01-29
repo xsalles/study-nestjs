@@ -1,6 +1,7 @@
 import { Body, Controller, HttpCode, Post } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Dto } from "./dto/index";
+import { hash } from "bcryptjs";
 
 @Controller("/accounts")
 export class CreateAccountController {
@@ -12,12 +13,15 @@ export class CreateAccountController {
     const name = dto.name;
     const email = dto.email;
     const password = dto.password;
+
+    const hashedPassword = await hash(password, 8)
+
     try {
       await this.prisma.user.create({
         data: {
           name,
           email,
-          password,
+          password: hashedPassword,
         },
       });
     } catch (error) {
